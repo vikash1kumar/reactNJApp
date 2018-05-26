@@ -1,7 +1,11 @@
 var express = require('express')
 var app = express()
 var mysql = require('mysql')
+const winston = require('winston');
+require('winston-loggly-bulk');
 require('dotenv').config();
+
+
  
 /**
  * This middleware provides a consistent API 
@@ -20,6 +24,8 @@ var dbOptions = {
     port:       config.database.port, 
     database: config.database.db
 }
+var logger = config.logger;
+logger.log('info', 'test message %s', 'my string');
 /**
  * 3 strategies can be used
  * single: Creates single database connection which is never closed.

@@ -1,4 +1,34 @@
 require('dotenv').config();
+const winston = require('winston');
+require('winston-loggly-bulk');
+require('dotenv').config();
+
+var logger = new (winston.Logger)({
+  transports: [
+    new (winston.transports.File)({
+      name: 'info-file',
+      filename: 'reactnjapp-info.log',
+      level: 'info'
+    }),
+    new (winston.transports.File)({
+      name: 'error-file',
+      filename: 'reactnjapp-error.log',
+      level: 'error'
+    })
+  ]
+});
+
+winston.loggers.add('development', {
+  console: {
+    level: 'silly',
+    colorize: 'true'
+  },
+  file: {
+    filename: './reactnjapp.log',
+    level: 'warn'
+  }
+});
+
 
 var config = {
     database: {

@@ -9,11 +9,16 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use(bodyParser.json({ type: 'application/json' }))
 //router.use(bodyParser.json());
 var logger = require("../utils/logger");
+const restcalls = require("../integrations/restcalls");
 
 // SHOW LIST OF PERSON
-app.get('/', function (req, res) {
+app.get('/',function (req, res) {
+	//logger.info('Fetching all person records from: %s', req.connection.remoteAddress);
+	let ipAdd
 	logger.info('Fetching all person records from: %s', req.connection.remoteAddress);
 	try {
+		ipAdd = restcalls.getIPAddress('https://api.ipify.org/?format=json','GET')
+		console.log(ipAdd);
     pool.query('SELECT * FROM person ORDER BY id DESC').then(
 			result => {
 				res.json(result);
@@ -86,7 +91,7 @@ app.get('/people18', function(req, res, next) {
 			try{
 				pool.query('DELETE FROM person WHERE id = ' + req.params.id, person).then(
 					result => {
-						res.status(HttpStatus.Accepted);
+						res.status(HttpStatus.ACCEPTED);
 						res.json({ 'message': 'Person deleted successfully! id = ' + req.params.id });
 					}
 				);

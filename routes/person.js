@@ -12,12 +12,12 @@ var logger = require("../utils/logger");
 const restcalls = require("../integrations/restcalls");
 
 // SHOW LIST OF PERSON
-app.get('/',function (req, res) {
+app.get('/',async function (req, res) {
 	//logger.info('Fetching all person records from: %s', req.connection.remoteAddress);
 	let ipAdd
 	logger.info('Fetching all person records from: %s', req.connection.remoteAddress);
 	try {
-		ipAdd = restcalls.getIPAddress('https://api.ipify.org/?format=json','GET')
+		ipAdd = await restcalls.getIPAddress('https://api.ipify.org/?format=json','GET')
 		console.log(ipAdd);
     pool.query('SELECT * FROM person ORDER BY id DESC').then(
 			result => {
